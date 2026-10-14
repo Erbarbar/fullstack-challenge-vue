@@ -1,0 +1,25 @@
+Architectural Decision Record (ADR)
+
+Target Audience: Technical Interviewer / Proctor
+
+Purpose: To justify engineering choices and demonstrate high-level design thinking.
+1. Pattern: The Data Proxy Pattern
+
+Decision: The Frontend never calls the external DummyJSON API directly; it only communicates with our Django Backend.
+
+Justance (The "Why"): This implements Data Sovereery and Security. It hides our third-party dependency, allows us to perform heavy server-side transformations (like calculating price ranges) that would be too expensive for a client browser, and provides a single point of control for authentication or logging.
+2. Strategy: Relational Data Modeling
+
+Decision: We broke the flat JSON array from the API into decoupled Product and Review models in PostgreSQL.
+
+Justance: While the API delivers reviews as an array inside a product, we used a One-to-Many relationship. This allows us to use powerful SQL Aggregations (Avg, Count) for our analytics dashboard without loading massive JSON blobs into memory. It ensures our "Analytics" endpoint remains O(1)O(1) performance-wise regardless of how many products are added.
+3. Architecture: Domain-Driven Service Layer
+
+Decision: We split the API logic from a single apiService into specialized, domain-specific services (userService, productService).
+
+Justance: This follows the Single Responsibility Principle (SRP). It prevents "God Objects" and makes the testing suite more granular. If the User domain changes, we only touch userService, making our system highly maintainable and scalable.
+4. Engineering Philosophy: Defensive Data Ingestion
+
+Decision: Implemented the update_or_create pattern with-deeply nested-property mapping (e.s.t. address.state).
+
+Justance: Using get() and update_or_create ensures that our synchronization process is Idempotent. Running the script 100 times results in the same state as running it once, protecting us against duplicate records and-runtime crashes from missing JSON keys.

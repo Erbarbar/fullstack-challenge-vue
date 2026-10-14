@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
+
+# Environment & Secrets (CRITICAL)
+.env
+.env.local
+.env.development.local
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+*.swp
