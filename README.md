@@ -25,16 +25,14 @@ The project is designed to be "Zero-Config." As long as you have **Docker** and 
 **Requirement:** Docker Desktop installed and running.
 
 ```
-git clone <your-repo-url>
-cd <project-directory>
 docker-compose up --build
 ```
 
 Once the containers are healthy, the application is available at:
 
-Frontend UI: http://localhost:5173
+**Frontend UI:** http://localhost:5173
 
-Backend API: http://localhost:8000/api/
+**Backend API:** http://localhost:8000/api/
 
 
 
